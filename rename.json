@@ -1,0 +1,3 @@
+{
+  "test/sauce/name-specs.js": "test/sauce/{%= name %}-specs.js"
+}
