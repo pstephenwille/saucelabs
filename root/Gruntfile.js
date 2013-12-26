@@ -2,82 +2,77 @@
 
 var _ = require('lodash');
 
-var desireds = {
-  chrome: {browserName: 'chrome'},
-  firefox: {browserName: 'firefox'},
-  exporer: {browserName: 'internet explorer'}
-}
+var desireds = require('./desireds');
 
 var gruntConfig = {
-    env: {
-      // dynamically filled
-    },
-    simplemocha: {
-      sauce: {
-        options: {
-          timeout: 60000,
-          reporter: 'spec'
+        env: {
+            // dynamically filled
         },
-        src: ['test/sauce/**/*-specs.js']
-      }
-    },    
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      gruntfile: {
-        src: 'Gruntfile.js'
-      },
-      test: {
-        src: ['test/**/*.js']
-      },
-    },
-    concurrent: {
-      'test-sauce': [], // dynamically filled
-    },
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib: {
-        files: '<%= jshint.lib.src %>',
-        tasks: ['jshint:lib', 'nodeunit']
-      },
-      test: {
-        files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'nodeunit']
-      },
-    },
-  }
+        simplemocha: {
+            sauce: {
+                options: {
+                    timeout: 60000,
+                    reporter: 'spec'
+                },
+                src: ['test/sauce/**/*-specs.js']
+            }
+        },    
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc'
+            },
+            gruntfile: {
+                src: 'Gruntfile.js'
+            },
+            test: {
+                options: {
+                    jshintrc: 'test/.jshintrc'
+                },                
+                src: ['test/**/*.js']
+            },
+        },
+        concurrent: {
+            'test-sauce': [], // dynamically filled
+        },
+        watch: {
+            gruntfile: {
+                files: '<%= jshint.gruntfile.src %>',
+                tasks: ['jshint:gruntfile']
+            },
+            test: {
+                files: '<%= jshint.test.src %>',
+                tasks: ['jshint:test']
+            },
+        },
+    };
  
 _(desireds).each(function(desired, key) {
-  gruntConfig.env[key] = { 
-    DESIRED: JSON.stringify(desired)
-  }
-  gruntConfig.concurrent['test-sauce'].push('test:sauce:' + key);
+    gruntConfig.env[key] = { 
+        DESIRED: JSON.stringify(desired)
+    };
+    gruntConfig.concurrent['test-sauce'].push('test:sauce:' + key);
 });
 
 //console.log(gruntConfig);
 
 module.exports = function(grunt) {
 
-  // Project configuration.
-  grunt.initConfig(gruntConfig);
+    // Project configuration.
+    grunt.initConfig(gruntConfig);
 
-  // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-env');
-  grunt.loadNpmTasks('grunt-simple-mocha');
-  grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+    // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-simple-mocha');
+    grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // Default task.
-  grunt.registerTask('default', ['jshint']);
+    // Default task.
+    grunt.registerTask('default', ['test:sauce:' + _(desireds).keys().first()]);
 
-  _(desireds).each(function(desired, key) {
-      grunt.registerTask('test:sauce:' + key, ['env:' + key, 'simplemocha:sauce']);
-  });
+    _(desireds).each(function(desired, key) {
+            grunt.registerTask('test:sauce:' + key, ['env:' + key, 'simplemocha:sauce']);
+    });
 
-  grunt.registerTask('test:sauce:parallel', ['concurrent:test-sauce']);
+    grunt.registerTask('test:sauce:parallel', ['concurrent:test-sauce']);
 };

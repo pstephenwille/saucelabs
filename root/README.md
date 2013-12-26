@@ -4,6 +4,19 @@
 
 ## Getting Started
 
+### Run Tests on one browser
+
+```
+grunt test:sauce:chrome
+grunt test:sauce:firefox
+grunt test:sauce:explorer
+```
+
+### Run Parallel Tests
+
+```
+grunt test:sauce:parallel
+```
 
 ## Documentation
 _(Coming soon)_
