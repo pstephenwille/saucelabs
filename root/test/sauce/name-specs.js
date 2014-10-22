@@ -88,7 +88,7 @@ describe('{%= name %} (' + desired.browserName + ')', function() {
 
         it("should return to the home page(" + i + ")", function(done) {
             browser
-                .elementById('logo')
+                .elementByCss('#nav ul li a')
                 .click()
                 .waitForElementById("intro", wd.asserters.textInclude('JavaScript runtime'), 10000)
                 .title()
