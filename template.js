@@ -54,7 +54,7 @@ exports.template = function(grunt, init, done) {
             'wd': 'latest',
             'chai': 'latest',
             'chai-as-promised': 'latest',
-            'lodash': 'latest',
+            'lodash': '~2.4.1',
             'colors': 'latest',
         };
 

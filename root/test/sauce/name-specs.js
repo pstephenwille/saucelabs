@@ -67,7 +67,7 @@ describe('{%= name %} (' + desired.browserName + ')', function() {
         browser
             .get("http://nodejs.org/")
             .title()
-            .should.become("node.js")
+            .should.become("Node.js")
             .elementById("intro")
             .text()
             .should.eventually.include('JavaScript runtime')
