@@ -45,8 +45,8 @@ var gruntConfig = {
             },
         },
     };
- 
-_(desireds).each(function(desired, key) {
+
+_.forIn(desireds,function(desired, key) {
     gruntConfig.env[key] = { 
         DESIRED: JSON.stringify(desired)
     };
@@ -70,7 +70,7 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('default', ['test:sauce:' + _(desireds).keys().first()]);
 
-    _(desireds).each(function(desired, key) {
+    _.forIn(desireds,function(desired, key) {
             grunt.registerTask('test:sauce:' + key, ['env:' + key, 'simplemocha:sauce']);
     });
 
