@@ -74,7 +74,7 @@ describe('{%= name %} (' + desired.browserName + ')', function() {
             .nodeify(done);
     });
 
-    _(2).times(function(i) { // repeat twice
+    _.times(2, function(i) { // repeat twice
 
         it("should go to the doc page (" + i + ")", function(done) {
             browser
