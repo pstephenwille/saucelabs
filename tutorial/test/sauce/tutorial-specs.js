@@ -36,7 +36,8 @@ describe('tutorial (' + desired.browserName + ')', function () {
   before(function (done) {
     var username = process.env.SAUCE_USERNAME;
     var accessKey = process.env.SAUCE_ACCESS_KEY;
-    browser = wd.promiseChainRemote("localhost", 4444, username, accessKey);
+    browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
+    //browser = wd.promiseChainRemote("localhost", 4444, username, accessKey);
     if (process.env.VERBOSE) {
       // optional logging
       browser.on('status', function (info) {
@@ -57,16 +58,13 @@ describe('tutorial (' + desired.browserName + ')', function () {
   });
 
   after(function (done) {
-    //browser
-    //    .quit()
-    //    .sauceJobStatus(allPassed)
-    //    .nodeify(done);
+    browser
+        .quit()
+        .sauceJobStatus(allPassed)
+        .nodeify(done);
   });
-  /*
-   * username
-   * password
-   * tagname login
-   * */
+
+
   it("should get home page: arstechnica", function (done) {
     browser
       .get("http://arstechnica.com/")
