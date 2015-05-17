@@ -12,8 +12,8 @@ chaiAsPromised.transferPromiseness = wd.transferPromiseness;
 if(!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY){
     console.warn(
         '\nPlease configure your sauce credential:\n\n' +
-        'export SAUCE_USERNAME=<SAUCE_USERNAME>\n' +
-        'export SAUCE_ACCESS_KEY=<SAUCE_ACCESS_KEY>\n\n'
+        'export SAUCE_USERNAME=nullsteph\n' +
+        'export SAUCE_ACCESS_KEY=08e1537b-157a-4d1c-bbd3-eba594fcc7d6\n\n'
     );
     throw new Error("Missing sauce credentials");
 }
@@ -38,13 +38,13 @@ describe('tutorial (' + desired.browserName + ')', function() {
         var accessKey = process.env.SAUCE_ACCESS_KEY;
         browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
         if(process.env.VERBOSE){
-            // optional logging     
+            // optional logging
             browser.on('status', function(info) {
                 console.log(info.cyan);
             });
             browser.on('command', function(meth, path, data) {
                 console.log(' > ' + meth.yellow, path.grey, data || '');
-            });            
+            });
         }
         browser
             .init(desired)
@@ -52,7 +52,7 @@ describe('tutorial (' + desired.browserName + ')', function() {
     });
 
     afterEach(function(done) {
-        allPassed = allPassed && (this.currentTest.state === 'passed');  
+        allPassed = allPassed && (this.currentTest.state === 'passed');
         done();
     });
 
@@ -63,18 +63,17 @@ describe('tutorial (' + desired.browserName + ')', function() {
             .nodeify(done);
     });
 
-    it("should get home page", function(done) {
+    it("should get home page: arstechnica", function(done) {
         browser
-            .get("http://nodejs.org/")
+            .get("http://arstechnica.com/")
             .title()
-            .should.become("Node.js")
-            .elementById("intro")
-            .text()
-            .should.eventually.include('JavaScript runtime')
+            .should.become("Ars Technica")
             .nodeify(done);
     });
 
-    _(2).times(function(i) { // repeat twice
+   /*
+
+   _(2).times(function(i) { // repeat twice
 
         it("should go to the doc page (" + i + ")", function(done) {
             browser
@@ -97,4 +96,6 @@ describe('tutorial (' + desired.browserName + ')', function() {
         });
 
     });
+
+    */
 });
