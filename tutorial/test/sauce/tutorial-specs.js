@@ -76,7 +76,7 @@ describe('tutorial (' + desired.browserName + ')', function () {
   it('should log in', function (done) {
     browser.
       elementById('login').click().
-      waitForElementByCss('#username').sendKeys('stephendev').
+      waitForElementByCss('#username').sendKeys(' ').
       waitForElementByCss('#password').sendKeys('woot-woot').
       elementByName('login').click().
       waitForElementByCss('.welcome').text().
