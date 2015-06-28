@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 
-var desireds = require('./desireds');
+var desireds = require('./desireds.many');
 
 var gruntConfig = {
         env: {

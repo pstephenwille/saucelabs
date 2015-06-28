@@ -37,6 +37,7 @@ describe('tutorial (' + desired.browserName + ')', function () {
     var username = process.env.SAUCE_USERNAME;
     var accessKey = process.env.SAUCE_ACCESS_KEY;
     browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
+    /* webdriver-manager start */
     //browser = wd.promiseChainRemote("localhost", 4444, username, accessKey);
     if (process.env.VERBOSE) {
       // optional logging
@@ -74,13 +75,13 @@ describe('tutorial (' + desired.browserName + ')', function () {
   });
 
   it('should log in', function (done) {
-    browser.
-      elementById('login').click().
-      waitForElementByCss('#username').sendKeys(' ').
-      waitForElementByCss('#password').sendKeys('woot-woot').
-      elementByName('login').click().
-      waitForElementByCss('.welcome').text().
-      should.become('stephendev').
-      nodeify(done);
+    browser
+      .elementById('login').click()
+      .waitForElementByCss('#username').sendKeys('stephendev')
+      .waitForElementByCss('#password').sendKeys('woot-woot')
+      .elementByName('login').click()
+      .waitForElementByCss('.welcome', 1000).text()
+      .should.become('stephendev')
+      .nodeify(done);
   });
 });
